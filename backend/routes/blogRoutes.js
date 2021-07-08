@@ -1,7 +1,8 @@
-const router    = require('express').Router();
-const Blog      = require('../app/controllers/blogController');
-const jwt       = require('jsonwebtoken');
-const multer    = require('multer');
+const router        = require('express').Router();
+const multer        = require('multer');
+
+const Blog          = require('../app/controllers/blogController');
+const authService   = require('../app/services/Auth');
 
 const storage   = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -13,47 +14,11 @@ const storage   = multer.diskStorage({
 });
 const upload    = multer({storage: storage});
 
-/** Authorization token check */
-router.use((req, res, next) => {
-    const method = req.method;
-    const token = req.headers.authorization;
-
-    if( method === "POST" || method === "DELETE" )
-    {
-        if(token)
-        {
-            jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
-                if(err)
-                {
-                    res.send(200).json({
-                        message:    "Session time out. Please login to continue.",
-                        status:     0,
-                        data:       [],
-                        error:      ''
-                    });
-                }
-                else
-                    next();
-            });
-        }
-        else
-        {
-            res.send(200).json({
-                message:    "Authorization token in missing from the request.",
-                status:     0,
-                data:       [],
-                error:      ''
-            });
-        }
-    }
-    next();
-});
-
 /** add blog */
-router.post('/', upload.single('thumbnail'), Blog.add);
+router.post('/', authService.checkToken, upload.single('thumbnail'), Blog.add);
 
 /** update blog */
-router.post('/:bid', upload.single('thumbnail'), Blog.update);
+router.post('/:bid', authService.checkToken, upload.single('thumbnail'), Blog.update);
 
 /** list blog */
 router.get('/', Blog.list);
@@ -62,6 +27,6 @@ router.get('/', Blog.list);
 router.get('/:bid', Blog.get);
 
 /** delete blog */
-router.delete('/:bid', Blog.delete);
+router.delete('/:bid', authService.checkToken, Blog.delete);
 
 module.exports = router;

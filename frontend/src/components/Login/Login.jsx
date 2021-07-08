@@ -2,6 +2,10 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { Link, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+/** React bootstrap components */
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 /** Components */
 
@@ -30,67 +34,48 @@ const Login = () => {
         if( result.status )
             localStorage.setItem('user_jwt', result.data);
         else
-            alert(result.message);
+            toast.error(result.message);
     };
 
     useEffect(() => {
+        localStorage.getItem('user_jwt');
         const checkLogin = localStorage.getItem('user_jwt');
         if( checkLogin )
-            history.push('/'); 
+            history.push('/');
     })
 
     return(
         <>
-            <div className="container">
-                <div className='row v-center'>
-                    <div className="col-sm-4">
+            <Container>
+                <Row className="v-center">
+                    <Col sm={4}>
                         <div className="form-wrapper login-form">
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className="form-group">
-                                    <label htmlFor="email">Email:</label>
-                                    <input
-                                        type="text"
-                                        id="email"
-                                        name="email"
-                                        className="form-control"
-                                        autoComplete="off"
-                                        autoFocus
-                                        ref={register({
-                                            required: 'Email address is required'
-                                        })}
-                                    />
+
+                            <Form onSubmit={handleSubmit(onSubmit)}>
+                                <Form.Group>
+                                    <Form.Label htmlFor='email'>Email:</Form.Label>
+                                    <Form.Control type='text' id='email' name='email' ref={register({required: 'Email is required'})}></Form.Control>
                                     {errors.email && <span className="text-danger error">{errors.email.message}</span>}
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="password">Password:</label>
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        name="password"
-                                        className="form-control"
-                                        ref={register({
-                                            required: "Password is required",
-                                            minLength: {
-                                                value: 7,
-                                                message: "password must be at least 7 digits long"
-                                            }
-                                        })}
-                                    />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label htmlFor='password'>Password:</Form.Label>
+                                    <Form.Control type='password' id='password' name='password' ref={register({required: 'Password is required'})}></Form.Control>
                                     {errors.password && <span className="text-danger error">{errors.password.message}</span>}
-                                </div>
-                                <div className="form-group">
-                                    <button type="submit" className="btn btn-info btn-block">Login</button>
-                                </div>
-                            </form>
+                                </Form.Group>
+                                <Form.Group>
+                                    <Button variant='info' type='submit' className='btn-block'>Login</Button>
+                                </Form.Group>
+                            </Form>
+
                             <div className="login-footer text-center">
                                 <Link to='/'>
                                     &larr; Back to home
                                 </Link>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </Col>
+                </Row>
+            </Container>
         </>
     );
 }

@@ -3,6 +3,9 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 
+/** React bootstrap components */
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+
 /** Components */
 import Header from "../Layout/Header";
 
@@ -35,11 +38,11 @@ const AddBlog = () => {
 			url = process.env.REACT_APP_API_URL + `blog/${bid}`;
 
 		const response = await fetch(url, request);
-		// const result = await response.json();
-		// if( result.status )
-		// 	history.push('/');
-		// else
-		// 	console.log(result.message);
+		const result = await response.json();
+		if( result.status )
+			history.push('/');
+		else
+			console.log(result.message);
 	}
 
 	useEffect( () => {
@@ -71,31 +74,29 @@ const AddBlog = () => {
 	return(
 		<>
       		<Header />
-			<div className="container">
-				<div className='row'>
-					<div className="col-sm-8 offset-sm-2">
-
+			<Container>
+				<Row>
+					<Col sm={{span: 8, offset: 2}}>
 						<section className="form-section">
 							<h2>{ bid ? 'Edit Blog' : 'Add Blog' }</h2>
-							<form onSubmit={handleSubmit(onSubmit)}>
-								<div className="row">
-									<div className="col-sm-6">
-										<div className="form-group">
-											<label htmlFor="title">Title</label>
-											<input
-												type="text"
-												id="title"
-												name="title"
-												className="form-control"
-												autoComplete="off"
+							
+							<Form onSubmit={handleSubmit(onSubmit)}>
+								<Row>
+									<Col sm={6}>
+										<Form.Group>
+											<Form.Label htmlFor='title'>Title</Form.Label>
+											<Form.Control
+												type='text'
+												id='title'
+												name='title'
 												ref={register({
-													required: 'Blog title is required'
+													required: "Blog title is required"
 												})}
 											/>
 											{errors.title && <span className="text-danger error">{errors.title.message}</span>}
-										</div>
-									</div>
-									<div className="col-sm-6">
+										</Form.Group>
+									</Col>
+									<Col sm={6}>
 										<div className="form-group">
 											<label htmlFor="thumbnail">Image</label>
 											<input
@@ -106,32 +107,38 @@ const AddBlog = () => {
 												ref={register}
 											/>
 										</div>
-									</div>
-								</div>
-
-								<div className="form-group">
-									<label htmlFor="content">Content</label>
-									<textarea
-										id="content"
-										name="content"
-										className="form-control"
-										rows="5"
+									</Col>
+								</Row>
+	
+								<Form.Group>
+									<Form.Label htmlFor='content'>Content</Form.Label>
+									<Form.Control
+										as='textarea'
+										name='content'
+										id='content'
+										rows='5'
 										ref={register({
 											required: 'Content is required'
 										})}
 									/>
 									{errors.content && <span className="text-danger error">{errors.content.message}</span>}
-								</div>
+								</Form.Group>
 
-								<button type='submit' className="btn btn-info">
+								<Button variant='info' type='submit'>
 									{ bid ? 'Update' : "Save" }
-								</button>
-							</form>
-						</section>
+								</Button>
+							</Form>
 
+						</section>
+					</Col>
+				</Row>
+			</Container>
+			{/* <div className="container">
+				<div className='row'>
+					<div className="col-sm-8 offset-sm-2">
 					</div>
 				</div>
-			</div>
+			</div> */}
     	</>
 	);
 }

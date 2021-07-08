@@ -14,14 +14,14 @@ const App = () => {
 	const PrivateRoute = ({component: Component, ...rest}) => {
 		return(
 			<Route
-			{...rest}
-			render={props => (
-				localStorage.getItem('user_jwt')
-				?
-				<Component {...props} />
-				:
-				<Redirect to={{pathname:'/login', state: {from: props.location}}} />
-			)}
+				{...rest}
+				render={props => (
+					localStorage.getItem('user_jwt')
+					?
+					<Component {...props} />
+					:
+					<Redirect to={{pathname:'/login', state: {from: props.location}}} />
+				)}
 			/>
 		)
   	}
