@@ -1,12 +1,11 @@
 /** Core packages */
 import React, {useEffect, useState} from 'react'
-import { Link } from 'react-router-dom';
 
 /** React bootstrap components */
-import { Col } from 'react-bootstrap';
 
 /** Components */
 import Header from "../Layout/Header";
+import Card from '../Blogs/BlogCard';
 
 /** Return "Blog" component */
 const Blogs = ()=> {
@@ -51,34 +50,7 @@ const Blogs = ()=> {
 	}
 
 	const listGenerator = (value, index, array) => {
-		const date = new Date(value.createdAt);
-		const finalDate = date.getDate() + '-' + (date.getMonth()+1) +'-' + date.getFullYear();
-		return(
-			<>
-				<Col md={4} key={index}>
-					<div className="card mb-4 box-shadow">
-						<img className="card-img-top" src={process.env.REACT_APP_API_URL + value.thumbnail} alt="blog-view" />
-							<div className="card-body">
-								<h4>{value.title}</h4>
-								<p className="card-text">{value.content}</p>
-								<div className="d-flex justify-content-between align-items-center">
-									{
-										localStorage.getItem("user_jwt") ? (
-											<div className="btn-group">
-												<Link className='btn btn-sm btn-outline-secondary' to={`/blog/${value._id}`}>Edit</Link>
-												<Link className='btn btn-sm btn-outline-secondary' to='#!' onClick={ () => deleteHandler(value._id)}>Delete</Link>
-											</div>
-										) : ''
-									}
-								<small className="text-muted">
-									{finalDate}
-								</small>
-							</div>
-						</div>
-					</div>
-				</Col>
-			</>
-		);
+		return( <Card data={value} handler={deleteHandler}></Card> );
 	}
 
 	const noData = () => {

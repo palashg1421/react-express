@@ -15,10 +15,10 @@ const storage   = multer.diskStorage({
 const upload    = multer({storage: storage});
 
 /** add blog */
-router.post('/', authService.checkToken, upload.single('thumbnail'), Blog.add);
+router.post('/', upload.single('thumbnail'), Blog.add);
 
 /** update blog */
-router.post('/:bid', authService.checkToken, upload.single('thumbnail'), Blog.update);
+router.post('/:bid', upload.single('thumbnail'), Blog.update);
 
 /** list blog */
 router.get('/', Blog.list);
