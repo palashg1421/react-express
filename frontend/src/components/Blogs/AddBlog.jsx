@@ -53,7 +53,7 @@ const AddBlog = () => {
 			setValue('title', '');
 			setValue('content', '');
 		}
-	}, [])
+	})
 
 	/** If blog id is available, then fetch record and allow to edit */
 	const getBlogById = async (bid) =>
@@ -133,12 +133,6 @@ const AddBlog = () => {
 					</Col>
 				</Row>
 			</Container>
-			{/* <div className="container">
-				<div className='row'>
-					<div className="col-sm-8 offset-sm-2">
-					</div>
-				</div>
-			</div> */}
     	</>
 	);
 }

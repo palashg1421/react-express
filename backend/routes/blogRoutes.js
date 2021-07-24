@@ -27,6 +27,6 @@ router.get('/', Blog.list);
 router.get('/:bid', Blog.get);
 
 /** delete blog */
-router.delete('/:bid', authService.checkToken, Blog.delete);
+router.delete('/:bid', Blog.delete);
 
 module.exports = router;
