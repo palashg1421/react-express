@@ -1,4 +1,4 @@
-# React & Express Blog Applicaion
+# React/Redux & Express Blog Applicaion
 
 A simple application to manage the blogs. The main extract of the app is to implement all the features of React, Express and JavaScript.
 
