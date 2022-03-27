@@ -2,12 +2,14 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
-
-/** React bootstrap components */
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 
 /** Components */
 import Header from "../Layout/Header";
+
+/** Actions */
+import { addUser, editUser } from '../../redux/actions/BlogActions';
 
 /** Return "Blog" component */
 const AddBlog = () => {
@@ -15,36 +17,24 @@ const AddBlog = () => {
 	const {bid}											= useParams();
 	const history										= useHistory();
 	const { register, handleSubmit, errors, setValue }	= useForm();
+	const dispatch 										= useDispatch()
 
 	/** From submit handler */
-	const onSubmit = async (data) =>
-	{
+	const onSubmit = async (data) => {
 		let fd = new FormData();
 		fd.append("title", data.title);
 		fd.append("content", data.content);
 		fd.append("thumbnail", data.thumbnail[0]);
 
-		const request = {
-			method:	'POST',
-			body:	fd,
-			headers: {
-				'Authorization': localStorage.getItem('user_jwt'),
-			}
-
+		if( bid ) {
+			fd.append( "_id", bid );
+			await dispatch( editUser( fd ) );
+			await history.push('/');
+		} else {
+			await dispatch( addUser(fd) );
+			await history.push('/');
 		}
-
-		let url = process.env.REACT_APP_API_URL + 'blog';
-		if (bid)
-			url = process.env.REACT_APP_API_URL + `blog/${bid}`;
-
-		const response = await fetch(url, request);
-		const result = await response.json();
-		if( result.status )
-			history.push('/');
-		else
-			console.log(result.message);
 	}
-
 	useEffect( () => {
 		if(bid)
 			getBlogById(bid);

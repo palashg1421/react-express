@@ -10,6 +10,7 @@ mongoose.connect( process.env.CONNECTION_STRING, { useNewUrlParser: true, useUni
 {
     /** Create server listener */
     app.listen(process.env.SERVER_PORT);
+    console.log( `Node running @ localhost:${process.env.SERVER_PORT}` );
 
     /** Make static path for images */
     app.use('/assets/uploads', express.static(path.join(__dirname, 'assets/uploads')));

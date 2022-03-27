@@ -18,7 +18,8 @@ import {Provider} from 'react-redux';
 
 /** Rendere */
 ReactDOM.render(
-	<BrowserRouter basename='/reapp'>
+	// <BrowserRouter basename='/reapp'> // enable this for
+	<BrowserRouter>
 		<Provider store={store}>
 			<App />
 				<ToastContainer

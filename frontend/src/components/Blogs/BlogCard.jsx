@@ -3,14 +3,13 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
 
-/** Redux: Get Data */
-import { useSelector } from 'react-redux';
+/** Custom modules */
+import { DateFormat } from '../Util/Util';
 
 const BlogCard = (props) => {
 
     const deleteHandler = props.handler;
-
-    const response = useSelector( (state) => { return state.BlogReducer } );
+    const response      = props.users;
 
     const controlActions = (value) => {
         return(
@@ -18,7 +17,7 @@ const BlogCard = (props) => {
                 <Link className='btn btn-sm btn-outline-secondary' to={`/blog/${value._id}`}>
                     Edit
                 </Link>
-                <Link className='btn btn-sm btn-outline-secondary' to='#!' onClick={ () => deleteHandler(value._id)}>
+                <Link className='btn btn-sm btn-outline-secondary' to='' onClick={ () => deleteHandler(value._id)}>
                     Delete
                 </Link>
             </div>
@@ -34,11 +33,6 @@ const BlogCard = (props) => {
         }
     }
 
-    const formatDate = ( blog_date ) => {
-        const date      = new Date( blog_date );
-        return(  date.getDate() + '-' + (date.getMonth()+1) +'-' + date.getFullYear() );
-    }
-
     const listGenerator = (value, index, array) => {
         return(
             <Col md={4} key={value._id}>
@@ -50,15 +44,15 @@ const BlogCard = (props) => {
                     />
                     <div className="card-body">
                         <h4>
-                            { strpiContent( value.title, 27) }
+                            { value.title ? strpiContent( value.title, 27) : '' }
                         </h4>
                         <p className="card-text">
-                            { strpiContent( value.content, 300 ) }
+                            { value.content ? strpiContent( value.content, 300 ) : '' }
                         </p>
                         <div className="d-flex justify-content-between align-items-center">
                             { localStorage.getItem("user_jwt") ? controlActions(value) : '' }
                             <small className="text-muted">
-                                { formatDate( value.createdAt ) }
+                                { DateFormat( value.createdAt ) }
                             </small>
                         </div>
                     </div>

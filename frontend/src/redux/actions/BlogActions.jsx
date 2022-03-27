@@ -13,10 +13,10 @@ export const listUser = () => async( dispatch ) => {
 
 export const deletUser = ( blog_id ) => async( dispatch ) => {
     const url = process.env.REACT_APP_API_URL + `blog/${blog_id}`;
-    const response = await axios.delete( url );
+    await axios.delete( url );
     dispatch({
         type: DELETE_USER,
-        payload: response.data
+        payload: blog_id
     });
 }
 
@@ -25,15 +25,18 @@ export const addUser = ( data ) => async( dispatch ) => {
     const response = await axios.post( url, data );
     dispatch({
         type: ADD_USER,
-        payload: response.data
+        payload: response.data.data
     });
 }
 
-export const editUser = ( bid, data ) => async( dispatch ) => {
-    const url = process.env.REACT_APP_API_URL + `blog/${bid}`;
+export const editUser = ( blog_data ) => async( dispatch ) => {
+    let data = {};
+    blog_data.forEach( ( value, key ) => data[key] = value );
+
+    const url = process.env.REACT_APP_API_URL + `blog/${data._id}`;
     const response = await axios.post( url, data );
     dispatch({
         type: EDIT_USER,
-        payload: response.data
+        payload: data,
     });
 }
