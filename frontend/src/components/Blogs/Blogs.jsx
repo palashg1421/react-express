@@ -8,9 +8,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Header from '../Layout/Header';
 import Card from '../Blogs/BlogCard';
 import Search from '../Blogs/Search';
-
-/** Libraries */
-import { isEmpty } from '../Util/Util';
+import Filter from '../Blogs/Filter';
 
 /** Redux */
 import { listUser, deletUser } from '../../redux/actions/BlogActions';
@@ -56,9 +54,8 @@ const Blogs = () => {
 							<Search handler={handleSearch} />
 						</Col>
 						<Col sm={9} className='content-body' >
-							<Row>
-								<Card handler={deleteHandler} users={usersInStore} criteria={criteria}></Card>
-							</Row>
+							{/* <Row><Filter /></Row> */}
+							<Row><Card handler={deleteHandler} users={usersInStore} criteria={criteria}></Card></Row>
 						</Col>
 					</Row>
 				</Container>

@@ -83,8 +83,7 @@ const BlogCard = (props) => {
                     return item
                 }
             } )
-            return filter_data ? filter_data.map( listGenerator ) : noData( 'No Data found' )
-            // console.log( filter_data );
+            return filter_data.length ? filter_data.map( listGenerator ) : noData( 'No Blogs Found' )
         }
     }
 

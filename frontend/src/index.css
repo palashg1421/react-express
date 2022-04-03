@@ -17,6 +17,7 @@
 .card-body {height: 225px !important;}
 .content-search {box-shadow: 0px 0px 5px 5px #dfdfdf;}
 .search-wrapper {padding: 15px 0;}
+.filter_wrapper {margin-bottom: 15px;}
 
 /* add edit form */
 .form-section {margin-top: 5%;}
