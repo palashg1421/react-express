@@ -38,7 +38,6 @@ const Login = () => {
     };
 
     useEffect(() => {
-        // localStorage.getItem('user_jwt');
         const checkLogin = localStorage.getItem('user_jwt');
         if( checkLogin )
             history.push('/');
